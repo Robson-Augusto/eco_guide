@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoGuia SRS - Descarte Consciente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <header class="bg-green-600 text-white p-4 sticky top-0 z-50 shadow-md">
+        <nav class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold italic">EcoGuia SRS</h1>
+            <ul class="flex gap-6">
+                <li><a href="#inicio" class="hover:underline">Início</a></li>
+                <li><a href="#guia" class="hover:underline">Guia de Descarte</a></li>
+                <li><a href="#pontos" class="hover:underline">Pontos de Coleta</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    
+
+    <section id="inicio" class="bg-green-100 py-20 px-4 text-center">
+        <div class="inline-flex items-center gap-2 bg-white border border-green-200 px-4 py-2 rounded-full shadow-sm mb-6 animate-bounce">
+            <i class="fa-solid fa-location-dot text-black-600"></i>
+            <span class="text-black-800 font-semibold text-sm tracking-wide uppercase">
+                Exclusivo: Santa Rita do Sapucaí - MG
+            </span>
+        </div>
+        <div class="container mx-auto">
+            <h2 class="text-4xl md:text-6xl text-green-900 mb-6 leading-tight">
+            Descarte certo,<span class="text-green-600"> proteja o futuro.</span> <br>
+            
+        </h2>
+            <p class="text-lg text-green-700 mb-8">Saiba como e onde descartar cada tipo de resíduo na sua cidade.</p>
+            
+            <p> </p>
+            <a href="#guia" class="bg-green-600 text-white px-8 py-4 rounded-full hover:bg-green-700 transition align-itens:center">Começar Agora</a>
+        </div>
+    </section>
+
+    <section id="guia" class="py-16 container mx-auto px-4">
+        <h3 class="text-3xl font-bold text-center mb-10">Veja os Tipos de residuos especias</h3>
+        
+        <div class="flex flex-wrap justify-center gap-4 mb-12" id="filter-buttons">
+            <button onclick="filterWaste('todos')" class="filter-btn bg-green-600 text-white px-6 py-2 rounded-lg">Todos</button>
+            <button onclick="filterWaste('reciclavel')" class="filter-btn bg-white border border-green-600 text-green-600 px-6 py-2 rounded-lg hover:bg-green-50">Recicláveis</button>
+            <button onclick="filterWaste('especial')" class="filter-btn bg-white border border-green-600 text-green-600 px-6 py-2 rounded-lg hover:bg-green-50">Resíduos Especiais</button>
+            <button onclick="filterWaste('perigoso')" class="filter-btn bg-white border border-green-600 text-green-600 px-6 py-2 rounded-lg hover:bg-green-50">Perigosos</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" id="waste-grid">
+        
+        </div>
+    </section>
+
+    <section id="pontos" class="py-16 bg-white container mx-auto px-4">
+    <div class="text-center mb-12">
+        <h3 class="text-3xl font-bold text-green-800">Veja os pontos de coleta em Santa Rita do Sapucaí</h3>
+        <p class="text-gray-600 mt-2">Encontre o local mais próximo para o descarte correto do seu resíduo.</p>
+    </div>
+
+    <div class="max-w-md mx-auto mb-8">
+        <select id="bairro-filter" onchange="filterPoints()" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
+            <option value="todos">Todos os Bairros</option>
+            <option value="Centro">Centro</option>
+            <option value="Maristela">Maristela</option>
+            <option value="Ozório Machado">Ozório Machado</option>
+            <option value="Distrito Industrial">Distrito Industrial</option>
+        </select>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="points-list">
+        </div>
+</section>
+
+    <script src="script.js"></script>
+</body>
+
+<footer class="bg-gray-900 text-gray-300 pt-12 pb-6">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-8">
+            
+            <div>
+                <h4 class="text-white text-xl font-bold mb-4 italic">EcoGuia SRS</h4>
+                <p class="text-sm leading-relaxed">
+                    Transformando a forma como Santa Rita do Sapucaí lida com seus resíduos. Tecnologia e consciência a serviço do meio ambiente.
+                </p>
+                <!-- <div class="flex gap-4 mt-5">
+                    <a href="#" class="hover:text-green-500 transition text-xl"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-green-500 transition text-xl"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="hover:text-green-500 transition text-xl"><i class="fa-brands fa-whatsapp"></i></a>
+                </div> -->
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold mb-4 uppercase text-sm tracking-widest">Navegação</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#inicio" class="hover:text-green-500 transition">Início</a></li>
+                    <li><a href="#guia" class="hover:text-green-500 transition">Guia de Descarte</a></li>
+                    <li><a href="#pontos" class="hover:text-green-500 transition">Pontos de Coleta</a></li>
+                    <!-- <li><a href="#" class="hover:text-green-500 transition">Dúvidas Frequentes</a></li> -->
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold mb-4 uppercase text-sm tracking-widest">Localidade</h4>
+                <p class="text-sm mb-2"><i class="fa-solid fa-location-dot mr-2 text-green-500"></i> Santa Rita do Sapucaí - MG</p>
+                <p class="text-sm mb-4"><i class="fa-solid fa-clock mr-2 text-green-500"></i> Horário da Coleta Urbana: Seg a Sáb</p>
+                <span class="text-xs bg-gray-800 p-2 rounded border border-gray-700">
+                    <a href="https://www.instagram.com/p/DQZ6nacCuGR/">Siga o cronograma da Prefeitura Municipal</a>
+                    
+                </span>
+            </div>
+
+        </div>
+
+        <hr class="border-gray-800 mb-6">
+
+        <div class="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
+            <p>&copy; 2026 EcoGuia SRS - Todos os direitos reservados.</p>
+            <p class="mt-2 md:mt-0">Desenvolvido com <i class="fa-solid fa-heart text-red-600"></i> para o Vale da Eletrônica. Por Robson Augusto</p>
+        </div>
+    </div>
+</footer>
+</html>
