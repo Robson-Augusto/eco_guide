@@ -1,128 +1,413 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoGuia SRS - Descarte Consciente</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Roteiro SP 48h - São Paulo em Detalhes</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .card-blur { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
+<body class="bg-gray-950 text-gray-100 min-h-screen pb-24">
 
-    <header class="bg-green-600 text-white p-4 sticky top-0 z-50 shadow-md">
-        <nav class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold italic">EcoGuia SRS</h1>
-            <ul class="flex gap-6">
-                <li><a href="#inicio" class="hover:underline">Início</a></li>
-                <li><a href="#guia" class="hover:underline">Guia de Descarte</a></li>
-                <li><a href="#pontos" class="hover:underline">Pontos de Coleta</a></li>
-            </ul>
-        </nav>
+    <!-- Header / Hero Section -->
+    <header class="relative bg-gradient-to-b from-gray-900 to-gray-950 pt-6 pb-8 px-5 rounded-b-3xl border-b border-gray-800 shadow-2xl">
+        <div class="flex items-center justify-between mb-4">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-red-500/10 text-red-400 border border-red-500/20">
+                <i class="fa-solid fa-location-dot"></i> Hospedagem: Centro de SP
+            </span>
+            <span class="text-xs text-gray-400 font-medium">07 a 09 Ago, 2026</span>
+        </div>
+        
+        <h1 class="text-2xl font-extrabold tracking-tight text-white mb-1">
+            São Paulo <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-amber-400">48 Hours</span>
+        </h1>
+        <p class="text-xs text-gray-400 leading-relaxed">
+            Roteiro otimizado: Liberdade, Arte, História no Ipiranga e Noite no Centro.
+        </p>
+
+        <!-- Progress Tracker -->
+        <div class="mt-5 bg-gray-900/80 p-3.5 rounded-2xl border border-gray-800/80 shadow-inner">
+            <div class="flex justify-between items-center text-xs mb-1.5">
+                <span class="font-medium text-gray-300"><i class="fa-solid fa-route text-amber-400 mr-1"></i> Progresso do Passeio</span>
+                <span id="progress-text" class="font-bold text-amber-400">0% concluído</span>
+            </div>
+            <div class="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
+                <div id="progress-bar" class="bg-gradient-to-r from-red-500 to-amber-400 h-full w-0 transition-all duration-500 rounded-full"></div>
+            </div>
+        </div>
     </header>
 
-    
-
-    <section id="inicio" class="bg-green-100 py-20 px-4 text-center">
-        <div class="inline-flex items-center gap-2 bg-white border border-green-200 px-4 py-2 rounded-full shadow-sm mb-6 animate-bounce">
-            <i class="fa-solid fa-location-dot text-black-600"></i>
-            <span class="text-black-800 font-semibold text-sm tracking-wide uppercase">
-                Exclusivo: Santa Rita do Sapucaí - MG
-            </span>
+    <!-- Navigation Tabs -->
+    <nav class="sticky top-0 z-50 bg-gray-950/90 card-blur border-b border-gray-800/80 py-3 px-4 my-2">
+        <div class="flex items-center gap-2 overflow-x-auto hide-scrollbar">
+            <button onclick="switchTab('sexta')" id="tab-sexta" class="tab-btn flex-1 min-w-[100px] py-2 px-3 rounded-xl text-xs font-bold transition-all text-center border border-gray-800 bg-gray-900 text-gray-400">
+                Sexta (07/08)
+            </button>
+            <button onclick="switchTab('sabado')" id="tab-sabado" class="tab-btn flex-1 min-w-[100px] py-2 px-3 rounded-xl text-xs font-bold transition-all text-center border border-red-500/50 bg-red-500/20 text-red-400">
+                Sábado (08/08)
+            </button>
+            <button onclick="switchTab('domingo')" id="tab-domingo" class="tab-btn flex-1 min-w-[100px] py-2 px-3 rounded-xl text-xs font-bold transition-all text-center border border-gray-800 bg-gray-900 text-gray-400">
+                Domingo (09/08)
+            </button>
         </div>
-        <div class="container mx-auto">
-            <h2 class="text-4xl md:text-6xl text-green-900 mb-6 leading-tight">
-            Descarte certo,<span class="text-green-600"> proteja o futuro.</span> <br>
-            
-        </h2>
-            <p class="text-lg text-green-700 mb-8">Saiba como e onde descartar cada tipo de resíduo na sua cidade.</p>
-            
-            <p> </p>
-            <a href="#guia" class="bg-green-600 text-white px-8 py-4 rounded-full hover:bg-green-700 transition align-itens:center">Começar Agora</a>
-        </div>
-    </section>
+    </nav>
 
-    <section id="guia" class="py-16 container mx-auto px-4">
-        <h3 class="text-3xl font-bold text-center mb-10">Veja os Tipos de residuos especias</h3>
-        
-        <div class="flex flex-wrap justify-center gap-4 mb-12" id="filter-buttons">
-            <button onclick="filterWaste('todos')" class="filter-btn bg-green-600 text-white px-6 py-2 rounded-lg">Todos</button>
-            <button onclick="filterWaste('reciclavel')" class="filter-btn bg-white border border-green-600 text-green-600 px-6 py-2 rounded-lg hover:bg-green-50">Recicláveis</button>
-            <button onclick="filterWaste('especial')" class="filter-btn bg-white border border-green-600 text-green-600 px-6 py-2 rounded-lg hover:bg-green-50">Resíduos Especiais</button>
-            <button onclick="filterWaste('perigoso')" class="filter-btn bg-white border border-green-600 text-green-600 px-6 py-2 rounded-lg hover:bg-green-50">Perigosos</button>
-        </div>
+    <!-- Main Content Container -->
+    <main class="px-4 pt-2">
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" id="waste-grid">
-        
-        </div>
-    </section>
-
-    <section id="pontos" class="py-16 bg-white container mx-auto px-4">
-    <div class="text-center mb-12">
-        <h3 class="text-3xl font-bold text-green-800">Veja os pontos de coleta em Santa Rita do Sapucaí</h3>
-        <p class="text-gray-600 mt-2">Encontre o local mais próximo para o descarte correto do seu resíduo.</p>
-    </div>
-
-    <div class="max-w-md mx-auto mb-8">
-        <select id="bairro-filter" onchange="filterPoints()" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
-            <option value="todos">Todos os Bairros</option>
-            <option value="Centro">Centro</option>
-            <option value="Maristela">Maristela</option>
-            <option value="Ozório Machado">Ozório Machado</option>
-            <option value="Distrito Industrial">Distrito Industrial</option>
-        </select>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="points-list">
-        </div>
-</section>
-
-    <script src="script.js"></script>
-</body>
-
-<footer class="bg-gray-900 text-gray-300 pt-12 pb-6">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-8">
-            
-            <div>
-                <h4 class="text-white text-xl font-bold mb-4 italic">EcoGuia SRS</h4>
-                <p class="text-sm leading-relaxed">
-                    Transformando a forma como Santa Rita do Sapucaí lida com seus resíduos. Tecnologia e consciência a serviço do meio ambiente.
+        <!-- SEXTA-FEIRA -->
+        <section id="content-sexta" class="tab-content hidden space-y-4">
+            <div class="bg-gray-900/60 p-4 rounded-2xl border border-gray-800/80">
+                <div class="flex items-center gap-2 text-amber-400 text-xs font-bold mb-1">
+                    <i class="fa-solid fa-plane-arrival"></i> CHEGADA A SÃO PAULO
+                </div>
+                <h2 class="text-base font-bold text-white">Chegada ao Hotel (~22h)</h2>
+                <p class="text-xs text-gray-400 mt-1 leading-relaxed">
+                    Check-in e descanso estratégico no Centro para estar com 100% de energia no sábado.
                 </p>
-                <!-- <div class="flex gap-4 mt-5">
-                    <a href="#" class="hover:text-green-500 transition text-xl"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="#" class="hover:text-green-500 transition text-xl"><i class="fa-brands fa-facebook"></i></a>
-                    <a href="#" class="hover:text-green-500 transition text-xl"><i class="fa-brands fa-whatsapp"></i></a>
-                </div> -->
+            </div>
+        </section>
+
+        <!-- SÁBADO -->
+        <section id="content-sabado" class="tab-content space-y-5">
+
+            <!-- Item 1: Café 89 -->
+            <article class="bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden shadow-lg transition-all">
+                <div class="relative h-44 w-full">
+                    <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80" alt="89 Coffee Station" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent"></div>
+                    <div class="absolute top-3 left-3 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg text-[11px] font-bold text-amber-400 border border-amber-400/30">
+                        <i class="fa-regular fa-clock mr-1"></i> 07:30 - 08:30
+                    </div>
+                    <label class="absolute top-3 right-3 flex items-center gap-1.5 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg cursor-pointer text-xs border border-gray-700">
+                        <input type="checkbox" onchange="toggleCheck(this)" class="accent-red-500 rounded h-4 w-4">
+                        <span class="text-xs font-semibold text-gray-300">Feito</span>
+                    </label>
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-bold text-white">89ºC Coffee Station</h3>
+                    <p class="text-xs text-amber-400 font-medium mb-2"><i class="fa-solid fa-mug-hot"></i> Cafeteria Oriental & Doces Japoneses</p>
+                    <p class="text-xs text-gray-300 leading-relaxed mb-3">
+                        Inicie o dia na Praça da Liberdade na abertura da casa para tomar cafés especiais e doces sem filas.
+                    </p>
+                    <div class="bg-gray-950/60 p-3 rounded-xl border border-gray-800/80 mb-3 text-xs space-y-1 text-gray-400">
+                        <div><strong class="text-gray-200"><i class="fa-solid fa-utensils text-amber-400 mr-1"></i> Pedido:</strong> Japanese Drip Coffee e <em>Choux Cream</em>.</div>
+                    </div>
+                    <a href="https://maps.google.com/?q=89C+Coffee+Station+Praca+da+Liberdade+Sao+Paulo" target="_blank" class="inline-flex items-center justify-center w-full gap-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2.5 px-4 rounded-xl text-xs transition-colors border border-gray-700">
+                        <i class="fa-solid fa-map-location-dot text-red-400"></i> Abrir no Google Maps
+                    </a>
+                </div>
+            </article>
+
+            <!-- Item 2: Liberdade & Templo Busshinji -->
+            <article class="bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden shadow-lg transition-all">
+                <div class="relative h-44 w-full">
+                    <img src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=800&q=80" alt="Liberdade" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent"></div>
+                    <div class="absolute top-3 left-3 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg text-[11px] font-bold text-amber-400 border border-amber-400/30">
+                        <i class="fa-regular fa-clock mr-1"></i> 08:30 - 10:00
+                    </div>
+                    <label class="absolute top-3 right-3 flex items-center gap-1.5 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg cursor-pointer text-xs border border-gray-700">
+                        <input type="checkbox" onchange="toggleCheck(this)" class="accent-red-500 rounded h-4 w-4">
+                        <span class="text-xs font-semibold text-gray-300">Feito</span>
+                    </label>
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-bold text-white">Liberdade Matinal & Templo Busshinji</h3>
+                    <p class="text-xs text-amber-400 font-medium mb-2"><i class="fa-solid fa-torii-gate"></i> Caminhada & Jardim Zen</p>
+                    <p class="text-xs text-gray-300 leading-relaxed mb-3">
+                        Caminhe pela Rua Galvão Bueno sem multidões e conheça o sereno Templo Busshinji na Rua São Joaquim, 285.
+                    </p>
+                    <a href="https://maps.google.com/?q=Templo+Busshinji+Rua+Sao+Joaquim+Sao+Paulo" target="_blank" class="inline-flex items-center justify-center w-full gap-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2.5 px-4 rounded-xl text-xs transition-colors border border-gray-700">
+                        <i class="fa-solid fa-map-location-dot text-red-400"></i> Ver Templo no Maps
+                    </a>
+                </div>
+            </article>
+
+            <!-- Item 3: Museu Imigração Japonesa -->
+            <article class="bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden shadow-lg transition-all">
+                <div class="relative h-44 w-full">
+                    <img src="https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?auto=format&fit=crop&w=800&q=80" alt="Museu Imigração Japonesa" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent"></div>
+                    <div class="absolute top-3 left-3 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg text-[11px] font-bold text-amber-400 border border-amber-400/30">
+                        <i class="fa-regular fa-clock mr-1"></i> 10:00 - 11:00
+                    </div>
+                    <label class="absolute top-3 right-3 flex items-center gap-1.5 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg cursor-pointer text-xs border border-gray-700">
+                        <input type="checkbox" onchange="toggleCheck(this)" class="accent-red-500 rounded h-4 w-4">
+                        <span class="text-xs font-semibold text-gray-300">Feito</span>
+                    </label>
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-bold text-white">Museu da Imigração Japonesa</h3>
+                    <p class="text-xs text-amber-400 font-medium mb-2"><i class="fa-solid fa-landmark"></i> Acervo Histórico do Kasato Maru</p>
+                    <p class="text-xs text-gray-300 leading-relaxed mb-3">
+                        Localizado na Rua São Joaquim, 381. Explore os andares com réplicas do navio Kasato Maru e kimonos.
+                    </p>
+                    <a href="https://maps.google.com/?q=Museu+Historico+da+Imigracao+Japonesa+no+Brasil" target="_blank" class="inline-flex items-center justify-center w-full gap-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2.5 px-4 rounded-xl text-xs transition-colors border border-gray-700">
+                        <i class="fa-solid fa-map-location-dot text-red-400"></i> Abrir no Maps
+                    </a>
+                </div>
+            </article>
+
+            <!-- Item 4: Pinacoteca -->
+            <article class="bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden shadow-lg transition-all">
+                <div class="relative h-44 w-full">
+                    <img src="https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=800&q=80" alt="Pinacoteca" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent"></div>
+                    <div class="absolute top-3 left-3 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg text-[11px] font-bold text-amber-400 border border-amber-400/30">
+                        <i class="fa-regular fa-clock mr-1"></i> 11:15 - 12:45
+                    </div>
+                    <label class="absolute top-3 right-3 flex items-center gap-1.5 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg cursor-pointer text-xs border border-gray-700">
+                        <input type="checkbox" onchange="toggleCheck(this)" class="accent-red-500 rounded h-4 w-4">
+                        <span class="text-xs font-semibold text-gray-300">Feito</span>
+                    </label>
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-bold text-white">Pinacoteca de São Paulo</h3>
+                    <p class="text-xs text-amber-400 font-medium mb-2"><i class="fa-solid fa-palette"></i> Arte Brasileira & Arquitetura</p>
+                    <p class="text-xs text-gray-300 leading-relaxed mb-3">
+                        Deslocamento via Metrô (São Joaquim → Luz). Conheça o acervo em um imponente prédio de tijolos aparentes.
+                    </p>
+                    <a href="https://maps.google.com/?q=Pinacoteca+de+Sao+Paulo" target="_blank" class="inline-flex items-center justify-center w-full gap-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2.5 px-4 rounded-xl text-xs transition-colors border border-gray-700">
+                        <i class="fa-solid fa-map-location-dot text-red-400"></i> Abrir no Maps
+                    </a>
+                </div>
+            </article>
+
+            <!-- Item 5: Almoço no Centro -->
+            <article class="bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden shadow-lg transition-all p-4">
+                <div class="flex justify-between items-start mb-2">
+                    <div>
+                        <span class="bg-gray-950/80 px-2 py-0.5 rounded text-[10px] font-bold text-amber-400 border border-amber-400/30">13:00 - 14:15</span>
+                        <h3 class="text-base font-bold text-white mt-1">Almoço no Centro Histórico</h3>
+                    </div>
+                    <label class="flex items-center gap-1 bg-gray-950/80 px-2 py-1 rounded cursor-pointer border border-gray-700">
+                        <input type="checkbox" onchange="toggleCheck(this)" class="accent-red-500 rounded h-4 w-4">
+                        <span class="text-xs text-gray-300">Feito</span>
+                    </label>
+                </div>
+                <p class="text-xs text-gray-300 leading-relaxed">
+                    Almoce na região do Centro para manter o ritmo e seguir para o Ipiranga via aplicativo.
+                </p>
+            </article>
+
+            <!-- Item 6: Museu do Ipiranga -->
+            <article class="bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden shadow-lg transition-all">
+                <div class="relative h-44 w-full">
+                    <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=800&q=80" alt="Museu do Ipiranga" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent"></div>
+                    <div class="absolute top-3 left-3 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg text-[11px] font-bold text-amber-400 border border-amber-400/30">
+                        <i class="fa-regular fa-clock mr-1"></i> 14:45 - 17:30
+                    </div>
+                    <label class="absolute top-3 right-3 flex items-center gap-1.5 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg cursor-pointer text-xs border border-gray-700">
+                        <input type="checkbox" onchange="toggleCheck(this)" class="accent-red-500 rounded h-4 w-4">
+                        <span class="text-xs font-semibold text-gray-300">Feito</span>
+                    </label>
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-bold text-white">Museu do Ipiranga & Jardins</h3>
+                    <p class="text-xs text-amber-400 font-medium mb-2"><i class="fa-solid fa-building-columns"></i> História do Brasil & Parque da Independência</p>
+                    <p class="text-xs text-gray-300 leading-relaxed mb-3">
+                        Visite a tela "Independência ou Morte" e passeie pelos jardins inspirados em Versalhes.
+                    </p>
+                    <div class="bg-gray-950/60 p-3 rounded-xl border border-gray-800/80 mb-3 text-xs text-gray-400">
+                        <strong class="text-gray-200"><i class="fa-solid fa-ticket text-amber-400 mr-1"></i> Aviso:</strong> Reserve o ingresso das 15h online com antecedência.
+                    </div>
+                    <a href="https://maps.google.com/?q=Museu+do+Ipiranga+Sao+Paulo" target="_blank" class="inline-flex items-center justify-center w-full gap-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2.5 px-4 rounded-xl text-xs transition-colors border border-gray-700">
+                        <i class="fa-solid fa-map-location-dot text-red-400"></i> Abrir no Maps
+                    </a>
+                </div>
+            </article>
+
+            <!-- Item 7: Terraço Itália -->
+            <article class="bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden shadow-lg transition-all">
+                <div class="relative h-44 w-full">
+                    <img src="https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=800&q=80" alt="Terraço Itália" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent"></div>
+                    <div class="absolute top-3 left-3 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg text-[11px] font-bold text-amber-400 border border-amber-400/30">
+                        <i class="fa-regular fa-clock mr-1"></i> 20:00 - 22:00
+                    </div>
+                    <label class="absolute top-3 right-3 flex items-center gap-1.5 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg cursor-pointer text-xs border border-gray-700">
+                        <input type="checkbox" onchange="toggleCheck(this)" class="accent-red-500 rounded h-4 w-4">
+                        <span class="text-xs font-semibold text-gray-300">Feito</span>
+                    </label>
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-bold text-white">Terraço Itália (Edifício Itália)</h3>
+                    <p class="text-xs text-amber-400 font-medium mb-2"><i class="fa-solid fa-wine-glass"></i> Jantar & Panorama Noturno</p>
+                    <p class="text-xs text-gray-300 leading-relaxed mb-3">
+                        Jante ou tome um drink apreciando a vista panorâmica noturna da cidade no topo do edifício.
+                    </p>
+                    <a href="https://maps.google.com/?q=Terraco+Italia+Edificio+Italia+Sao+Paulo" target="_blank" class="inline-flex items-center justify-center w-full gap-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2.5 px-4 rounded-xl text-xs transition-colors border border-gray-700">
+                        <i class="fa-solid fa-map-location-dot text-red-400"></i> Abrir no Maps
+                    </a>
+                </div>
+            </article>
+
+            <!-- Item 8: Bar do Cofre -->
+            <article class="bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden shadow-lg transition-all">
+                <div class="relative h-44 w-full">
+                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80" alt="Bar do Cofre" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent"></div>
+                    <div class="absolute top-3 left-3 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg text-[11px] font-bold text-amber-400 border border-amber-400/30">
+                        <i class="fa-regular fa-clock mr-1"></i> 22:00 em diante
+                    </div>
+                    <label class="absolute top-3 right-3 flex items-center gap-1.5 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg cursor-pointer text-xs border border-gray-700">
+                        <input type="checkbox" onchange="toggleCheck(this)" class="accent-red-500 rounded h-4 w-4">
+                        <span class="text-xs font-semibold text-gray-300">Feito</span>
+                    </label>
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-bold text-white">Bar do Cofre por SubAstor</h3>
+                    <p class="text-xs text-amber-400 font-medium mb-2"><i class="fa-solid fa-martini-glass-citrus"></i> Coquetelaria Retrô em Cofre Subterrâneo</p>
+                    <p class="text-xs text-gray-300 leading-relaxed mb-3">
+                        Encerre o sábado no bar de coquetelaria localizado dentro do antigo cofre blindado do Banespa.
+                    </p>
+                    <a href="https://maps.google.com/?q=Bar+do+Cofre+SubAstor+Farol+Santander" target="_blank" class="inline-flex items-center justify-center w-full gap-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2.5 px-4 rounded-xl text-xs transition-colors border border-gray-700">
+                        <i class="fa-solid fa-map-location-dot text-red-400"></i> Abrir no Maps
+                    </a>
+                </div>
+            </article>
+
+        </section>
+
+        <!-- DOMINGO -->
+        <section id="content-domingo" class="tab-content hidden space-y-5">
+
+            <!-- Item 1: Praça e Catedral da Sé -->
+            <article class="bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden shadow-lg transition-all">
+                <div class="relative h-44 w-full">
+                    <img src="https://images.unsplash.com/photo-1548625361-181f7e029c7b?auto=format&fit=crop&w=800&q=80" alt="Catedral da Sé" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent"></div>
+                    <div class="absolute top-3 left-3 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg text-[11px] font-bold text-amber-400 border border-amber-400/30">
+                        <i class="fa-regular fa-clock mr-1"></i> 08:30 - 10:00
+                    </div>
+                    <label class="absolute top-3 right-3 flex items-center gap-1.5 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg cursor-pointer text-xs border border-gray-700">
+                        <input type="checkbox" onchange="toggleCheck(this)" class="accent-red-500 rounded h-4 w-4">
+                        <span class="text-xs font-semibold text-gray-300">Feito</span>
+                    </label>
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-bold text-white">Praça & Catedral da Sé (Marco Zero)</h3>
+                    <p class="text-xs text-amber-400 font-medium mb-2"><i class="fa-solid fa-church"></i> Arquitetura Neogótica & História</p>
+                    <p class="text-xs text-gray-300 leading-relaxed mb-3">
+                        Visite a catedral neogótica e conheça o monumento do Marco Zero de São Paulo.
+                    </p>
+                    <a href="https://maps.google.com/?q=Catedral+Metropolitana+de+Sao+Paulo+Praca+da+Se" target="_blank" class="inline-flex items-center justify-center w-full gap-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2.5 px-4 rounded-xl text-xs transition-colors border border-gray-700">
+                        <i class="fa-solid fa-map-location-dot text-red-400"></i> Abrir no Maps
+                    </a>
+                </div>
+            </article>
+
+            <!-- Item 2: Farol Santander -->
+            <article class="bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden shadow-lg transition-all">
+                <div class="relative h-44 w-full">
+                    <img src="https://images.unsplash.com/photo-1543059080-f9b1272213d5?auto=format&fit=crop&w=800&q=80" alt="Farol Santander" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 to-transparent"></div>
+                    <div class="absolute top-3 left-3 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg text-[11px] font-bold text-amber-400 border border-amber-400/30">
+                        <i class="fa-regular fa-clock mr-1"></i> 10:15 - 11:30
+                    </div>
+                    <label class="absolute top-3 right-3 flex items-center gap-1.5 bg-gray-950/80 card-blur px-2.5 py-1 rounded-lg cursor-pointer text-xs border border-gray-700">
+                        <input type="checkbox" onchange="toggleCheck(this)" class="accent-red-500 rounded h-4 w-4">
+                        <span class="text-xs font-semibold text-gray-300">Feito</span>
+                    </label>
+                </div>
+                <div class="p-4">
+                    <h3 class="text-lg font-bold text-white">Farol Santander (Mirante 26º andar)</h3>
+                    <p class="text-xs text-amber-400 font-medium mb-2"><i class="fa-solid fa-city"></i> Panorama do Anhangabaú & Exposição</p>
+                    <p class="text-xs text-gray-300 leading-relaxed mb-3">
+                        Caminhe da Sé até o antigo Banespa e suba ao mirante do 26º andar para fotos antes da partida.
+                    </p>
+                    <a href="https://maps.google.com/?q=Farol+Santander+Sao+Paulo" target="_blank" class="inline-flex items-center justify-center w-full gap-2 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2.5 px-4 rounded-xl text-xs transition-colors border border-gray-700">
+                        <i class="fa-solid fa-map-location-dot text-red-400"></i> Abrir no Maps
+                    </a>
+                </div>
+            </article>
+
+            <!-- Despedida -->
+            <div class="bg-gradient-to-r from-red-500/20 to-amber-500/20 p-4 rounded-2xl border border-amber-500/30 text-center">
+                <i class="fa-solid fa-plane-departure text-amber-400 text-2xl mb-1"></i>
+                <h4 class="text-sm font-bold text-white">12:00 - Check-out & Retorno</h4>
+                <p class="text-xs text-gray-300 mt-1">Boa viagem de volta!</p>
             </div>
 
-            <div>
-                <h4 class="text-white font-bold mb-4 uppercase text-sm tracking-widest">Navegação</h4>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="#inicio" class="hover:text-green-500 transition">Início</a></li>
-                    <li><a href="#guia" class="hover:text-green-500 transition">Guia de Descarte</a></li>
-                    <li><a href="#pontos" class="hover:text-green-500 transition">Pontos de Coleta</a></li>
-                    <!-- <li><a href="#" class="hover:text-green-500 transition">Dúvidas Frequentes</a></li> -->
-                </ul>
-            </div>
+        </section>
 
-            <div>
-                <h4 class="text-white font-bold mb-4 uppercase text-sm tracking-widest">Localidade</h4>
-                <p class="text-sm mb-2"><i class="fa-solid fa-location-dot mr-2 text-green-500"></i> Santa Rita do Sapucaí - MG</p>
-                <p class="text-sm mb-4"><i class="fa-solid fa-clock mr-2 text-green-500"></i> Horário da Coleta Urbana: Seg a Sáb</p>
-                <span class="text-xs bg-gray-800 p-2 rounded border border-gray-700">
-                    <a href="https://www.instagram.com/p/DQZ6nacCuGR/">Siga o cronograma da Prefeitura Municipal</a>
-                    
-                </span>
-            </div>
+    </main>
 
+    <!-- Bottom Action Bar -->
+    <div class="fixed bottom-0 left-0 right-0 bg-gray-950/95 card-blur border-t border-gray-800 p-3 z-50 flex items-center justify-between px-5">
+        <div class="text-xs">
+            <span class="text-gray-400 block text-[10px] uppercase font-bold">Base</span>
+            <span class="text-white font-bold"><i class="fa-solid fa-hotel text-amber-400 mr-1"></i> Centro de SP</span>
         </div>
-
-        <hr class="border-gray-800 mb-6">
-
-        <div class="flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-            <p>&copy; 2026 EcoGuia SRS - Todos os direitos reservados.</p>
-            <p class="mt-2 md:mt-0">Desenvolvido com <i class="fa-solid fa-heart text-red-600"></i> para o Vale da Eletrônica. Por Robson Augusto</p>
-        </div>
+        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="bg-gray-800 text-gray-300 p-2.5 rounded-xl border border-gray-700 text-xs font-semibold hover:bg-gray-700">
+            <i class="fa-solid fa-arrow-up"></i> Topo
+        </button>
     </div>
-</footer>
+
+    <!-- Script JavaScript -->
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('border-red-500/50', 'bg-red-500/20', 'text-red-400');
+                btn.classList.add('border-gray-800', 'bg-gray-900', 'text-gray-400');
+            });
+
+            document.getElementById('content-' + tab).classList.remove('hidden');
+            const activeBtn = document.getElementById('tab-' + tab);
+            activeBtn.classList.remove('border-gray-800', 'bg-gray-900', 'text-gray-400');
+            activeBtn.classList.add('border-red-500/50', 'bg-red-500/20', 'text-red-400');
+        }
+
+        function toggleCheck(checkbox) {
+            const article = checkbox.closest('article');
+            if (checkbox.checked) {
+                article.classList.add('opacity-50', 'grayscale-[50%]');
+            } else {
+                article.classList.remove('opacity-50', 'grayscale-[50%]');
+            }
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const total = checkboxes.length;
+            let checked = 0;
+            checkboxes.forEach(cb => { if(cb.checked) checked++; });
+            const percentage = Math.round((checked / total) * 100);
+            
+            document.getElementById('progress-bar').style.width = percentage + '%';
+            document.getElementById('progress-text').innerText = percentage + '% concluído';
+        }
+    </script>
+</body>
 </html>
